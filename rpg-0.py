@@ -6,6 +6,9 @@ In this simple RPG game, the hero fights the goblin. He has the options to:
 3. flee
 
 """
+from random import *
+
+
 class Character:
     def __init__(self, health, power):
         self.health = health
@@ -21,7 +24,7 @@ class Character:
 
 class Hero(Character):
     def print_status(self):
-        print("You have %d health and %d power." % (hero_char.health, hero_char.power))
+        print("You have %d health and %d power." % (self.health, self.power))
         print("The goblin has %d health and %d power." % (goblin_char.health, goblin_char.power))
         print()
         print("What do you want to do?")
