@@ -79,7 +79,7 @@ def main():
             print("Invalid input %r" % user_input)
 
         if enemy_char.alive():
-        #     # Goblin attacks hero
+        #     # enemy attacks hero
             enemy_char.attack(main_char)
             #if character is still alive run again
             if main_char.alive():
