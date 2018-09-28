@@ -79,7 +79,29 @@ class Character:
         print("> ",)
     
     def alive(self):
-        return self.health > 0 
+        return self.health > 0
+
+    def activate_super_power(self, enemy):
+        if enemy.super_power == 'regeneration':
+            health_regen = random.random() * 100
+            if health_regen <= 20:
+                enemy.health += 2
+                print('***They regenerated 2 points?!?~~***')
+        if self.super_power == 'double_strike':
+            attack_percentage = random.random() * 100
+            if attack_percentage <= 20:
+                enemy.health -= self.power
+                print('Double Strike! %s deals %d extra damage' % (self.name, self.power))
+        if self.super_power == 'black_magick':
+            magicka_percentage = random.random() * 100
+            if magicka_percentage <= 5:
+                enemy.health -= (enemy.health / 2)
+                print('The wizard opens up a dark portal extracting half %s\'s lifepoints' % enemy.name)
+        if self.super_power == 'relentless':
+            if self.health <= 0:
+                self.health = 1
+                print('The Zombie stands back up! What will %s do???' % enemy.name)
+            
 
     # def attack(self, enemy, super_power):
     #     if enemy.super_power == 'regeneration':
@@ -96,16 +118,11 @@ class Character:
 
 class Human(Character):
     def attack(self, enemy):
-        attack_percentage = random.random() * 100
-        temp_power = self.power * 2
-        if attack_percentage <= 20:
-            enemy.health -= temp_power
-            print("%s does %d damage to the %s." % (self.name, temp_power, enemy.name))
-        else:
-            enemy.health -= self.power
-            print("> %s does %d damage to %s." % (self.name, self.power, enemy.name))
+        enemy.health -= self.power
+        print('%s deals %d to %s with his falchion' % (self.name, self.power, enemy.name))
 
 class Wizard(Character):
+    super_power = 'regeneration'
     def attack(self, enemy):
         enemy.health -= self.power
         print('> The wizard shoots a lightning bolt at %s, dealing %d damage to them' % (enemy.name, self.power))
@@ -113,7 +130,6 @@ class Wizard(Character):
         
 class Goblin(Character):
     def attack(self, enemy):
-        # # Goblin attacks usable character
         enemy.health -= main_char.power
         print("> %s does %d damage to %s." % (self.name, self.power, enemy.name))
     
@@ -124,8 +140,10 @@ class Zombie(Character):
 
 def main():
     while main_char.alive() and enemy_char.alive():
+        #print out status from main characters perspective
         main_char.print_status(enemy_char)
         user_input = input()
+        #take inputs from user
         if user_input == "1":
             # Hero attacks goblin
             main_char.attack(enemy_char)
@@ -140,6 +158,9 @@ def main():
         else:
             print("Invalid input %r" % user_input)
 
+        main_char.activate_super_power(enemy_char)
+        enemy_char.activate_super_power(main_char)
+        #if the enemy is alive he attacks back
         if enemy_char.alive():
         #     # enemy attacks hero
             enemy_char.attack(main_char)
@@ -151,7 +172,7 @@ def main():
 
 
 
-main_char = Goblin('Sven the Goblin', 20, 4)
-enemy_char = Human('Wilson the Human', 10, 5)
+main_char = Wizard('Sven the Wizard', 200, 4, 'black_magick')
+enemy_char = Zombie('Gregor the Zombie', 100, 5, 'relentless')
 
 main()
