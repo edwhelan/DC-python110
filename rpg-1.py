@@ -11,13 +11,13 @@ character_choices = [
     {'name':'Human',
     'health': 10,
     'power': 5,
-    'super_power': 'boring',
+    'super_power': 'double_strike',
     'bounty': 12
     },
     {'name':'Wizard',
     'health': 10,
     'power': 5,
-    'super_power': 'spellcasting',
+    'super_power': 'black_magick',
     'bounty': 18
     }, 
     {'name':'Goblin',
@@ -38,10 +38,10 @@ character_choices = [
     'super_power': 'phasing',
     'bounty': 10
     }, 
-    {'name':'Medic',
+    {'name':'Cleric',
     'health': 8,
     'power': 4,
-    'super_power': 'regeneration',
+    'super_power': 'healing',
     'bounty': 10
     }, 
     {'name':'Zombie',
@@ -80,13 +80,13 @@ class Character:
     
     def alive(self):
         return self.health > 0
-
+#establish super power mechanic and what abilities do what.
     def activate_super_power(self, enemy):
-        if enemy.super_power == 'regeneration':
+        if enemy.super_power == 'healing':
             health_regen = random.random() * 100
             if health_regen <= 20:
                 enemy.health += 2
-                print('***They regenerated 2 points?!?~~***')
+                print('***%s cast healing for 2 points?!?~~***' % (enemy.name))
         if self.super_power == 'double_strike':
             attack_percentage = random.random() * 100
             if attack_percentage <= 20:
@@ -96,25 +96,13 @@ class Character:
             magicka_percentage = random.random() * 100
             if magicka_percentage <= 5:
                 enemy.health -= (enemy.health / 2)
-                print('The wizard opens up a dark portal extracting half %s\'s lifepoints' % enemy.name)
+                print('%s opens up a dark portal extracting half %s\'s lifepoints' % (self.name, enemy.name))
         if self.super_power == 'relentless':
             if self.health <= 0:
                 self.health = 1
                 print('The Zombie stands back up! What will %s do???' % enemy.name)
-            
 
-    # def attack(self, enemy, super_power):
-    #     if enemy.super_power == 'regeneration':
-    #         health_regen = random.random() * 100
-    #         if health_regen <= 20:
-    #             enemy.health -= self.power
-    #             enemy.health += 2
-    #             print('***Regenerate!~~***')
-    #         else:
-    #             enemy.power -= self.power
-                
 
-        # enemy.power -= self.power
 
 class Human(Character):
     def attack(self, enemy):
@@ -126,8 +114,7 @@ class Wizard(Character):
     def attack(self, enemy):
         enemy.health -= self.power
         print('> The wizard shoots a lightning bolt at %s, dealing %d damage to them' % (enemy.name, self.power))
-                
-        
+                   
 class Goblin(Character):
     def attack(self, enemy):
         enemy.health -= main_char.power
@@ -137,6 +124,11 @@ class Zombie(Character):
     def attack(self, enemy):
         enemy.health -= self.power
         print('> %s slowly lurches forwards and bites %s for %d damage' % (self.name, enemy.name, self.power))
+
+class Cleric(Character):
+    def attack(self, enemy):
+        enemy.health -= self.power
+        print('%s swings with their mace for %d damage to %s' % (self.name, self.power, enemy.name))
 
 def main():
     while main_char.alive() and enemy_char.alive():
@@ -170,9 +162,11 @@ def main():
             else: 
                 print('You have died...')   
 
+def who_will_you_be(character_class_name):
+    main_char = character_class_name()
 
 
 main_char = Wizard('Sven the Wizard', 200, 4, 'black_magick')
-enemy_char = Zombie('Gregor the Zombie', 100, 5, 'relentless')
+enemy_char = Cleric('Güt the Cleric', 100, 5, 'healing')
 
 main()
