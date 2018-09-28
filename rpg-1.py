@@ -7,14 +7,64 @@ In this simple RPG game, the hero fights the goblin. He has the options to:
 
 """
 import random
-character_choices = ['Wizard', 'Goblin', 'Drow', 'Shadow', 'Medic', 'Zombie', 'Gunslinger']
+character_choices = [
+    {'name':'Human',
+    'health': 10,
+    'power': 5,
+    'super_power': 'boring',
+    'bounty': 12
+    },
+    {'name':'Wizard',
+    'health': 10,
+    'power': 5,
+    'super_power': 'spellcasting',
+    'bounty': 18
+    }, 
+    {'name':'Goblin',
+    'health': 6,
+    'power': 4,
+    'super_power': 'quick',
+    'bounty': 8
+    }, 
+    {'name':'Drow',
+    'health': 6,
+    'power': 7,
+    'super_power': 'stealth',
+    'bounty': 15
+    }, 
+    {'name':'Shadow',
+    'health': 5,
+    'power': 5,
+    'super_power': 'phasing',
+    'bounty': 10
+    }, 
+    {'name':'Medic',
+    'health': 8,
+    'power': 4,
+    'super_power': 'regeneration',
+    'bounty': 10
+    }, 
+    {'name':'Zombie',
+    'health': 6,
+    'power': 1,
+    'super_power': 'relentless',
+    'bounty': 5
+    }, 
+    {'name':'Gunslinger',
+    'health': 10,
+    'power': 5,
+    'super_power': 'headshot',
+    'bounty': 20
+    }
+]
 
 
 class Character:
-    def __init__(self, name, health, power):
+    def __init__(self, name, health, power, super_power):
         self.name = name
         self.health = health
         self.power = power
+        self.super_power = super_power
         # self.bounty
 
     def print_status(self, enemy):
@@ -31,6 +81,18 @@ class Character:
     def alive(self):
         return self.health > 0 
 
+    # def attack(self, enemy, super_power):
+    #     if enemy.super_power == 'regeneration':
+    #         health_regen = random.random() * 100
+    #         if health_regen <= 20:
+    #             enemy.health -= self.power
+    #             enemy.health += 2
+    #             print('***Regenerate!~~***')
+    #         else:
+    #             enemy.power -= self.power
+                
+
+        # enemy.power -= self.power
 
 class Human(Character):
     def attack(self, enemy):
@@ -51,7 +113,7 @@ class Wizard(Character):
         
 class Goblin(Character):
     def attack(self, enemy):
-        # Goblin attacks usable character
+        # # Goblin attacks usable character
         enemy.health -= main_char.power
         print("> %s does %d damage to %s." % (self.name, self.power, enemy.name))
     
@@ -90,6 +152,6 @@ def main():
 
 
 main_char = Goblin('Sven the Goblin', 20, 4)
-enemy_char = Human('Wilson the Human', 10,5)
+enemy_char = Human('Wilson the Human', 10, 5)
 
 main()
